@@ -1,0 +1,88 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Navigation {
+  id            String     @id @default(cuid())
+  title         String
+  slug          String     @unique
+  url           String?
+  lastScrapedAt DateTime?
+  categories    Category[]
+  createdAt     DateTime   @default(now())
+}
+
+model Category {
+  id            String     @id @default(cuid())
+  navigationId  String?
+  navigation    Navigation? @relation(fields: [navigationId], references: [id])
+  parentId      String?
+  title         String
+  slug          String     @unique
+  url           String?
+  productCount  Int        @default(0)
+  lastScrapedAt DateTime?
+  products      Product[]
+  createdAt     DateTime   @default(now())
+}
+
+model Product {
+  id            String         @id @default(cuid())
+  sourceId      String         @unique
+  categoryId    String?
+  category      Category?      @relation(fields: [categoryId], references: [id])
+  title         String
+  author        String?
+  price         Float
+  currency      String         @default("GBP")
+  imageUrl      String?
+  sourceUrl     String         @unique
+  lastScrapedAt DateTime?
+  detail        ProductDetail?
+  reviews       Review[]
+  createdAt     DateTime       @default(now())
+}
+
+model ProductDetail {
+  id           String   @id @default(cuid())
+  productId    String   @unique
+  product      Product  @relation(fields: [productId], references: [id])
+  description  String?
+  specs        String?
+  ratingsAvg   Float?
+  reviewsCount Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  author    String?
+  rating    Float?
+  text      String?
+  createdAt DateTime @default(now())
+}
+
+model ScrapeJob {
+  id         String    @id @default(cuid())
+  targetUrl  String
+  targetType String
+  status     String    @default("pending")
+  startedAt  DateTime?
+  finishedAt DateTime?
+  errorLog   String?
+  createdAt  DateTime  @default(now())
+}
+
+model ViewHistory {
+  id        String   @id @default(cuid())
+  sessionId String
+  path      String
+  createdAt DateTime @default(now())
+}
