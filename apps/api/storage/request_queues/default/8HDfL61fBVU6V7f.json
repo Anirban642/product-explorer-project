@@ -1,0 +1,9 @@
+{
+	"id": "8HDfL61fBVU6V7f",
+	"json": "{\"id\":\"8HDfL61fBVU6V7f\",\"url\":\"https://www.worldofbooks.com/en-gb/search?keyword=fantasy\",\"loadedUrl\":\"https://www.worldofbooks.com/en-gb/search?keyword=fantasy\",\"uniqueKey\":\"https://www.worldofbooks.com/en-gb/search?keyword=fantasy\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-01-10T14:51:54.743Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.worldofbooks.com/en-gb/search?keyword=fantasy",
+	"url": "https://www.worldofbooks.com/en-gb/search?keyword=fantasy"
+}
