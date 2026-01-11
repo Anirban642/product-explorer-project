@@ -8,6 +8,10 @@ export class ScraperService {
   
   constructor(private prisma: PrismaService) {}
 
+  private isPlaywrightEnabled(): boolean {
+    return process.env.ENABLE_PLAYWRIGHT === 'true';
+  }
+
   async scrapeRealNavigation() {
     this.logger.log('Starting real navigation scraping from World of Books...');
     
@@ -115,7 +119,11 @@ export class ScraperService {
     });
 
     try {
-      await crawler.run(['https://www.worldofbooks.com/en-gb']);
+      if (this.isPlaywrightEnabled()) {
+        await crawler.run(['https://www.worldofbooks.com/en-gb']);
+      } else {
+        this.logger.log('Playwright disabled, skipping to fallback data');
+      }
     } catch (error) {
       this.logger.error('Crawler error:', error);
     }
@@ -280,7 +288,11 @@ export class ScraperService {
     });
 
     try {
-      await crawler.run([searchUrl]);
+      if (this.isPlaywrightEnabled()) {
+        await crawler.run([searchUrl]);
+      } else {
+        this.logger.log('Playwright disabled, using mock products');
+      }
     } catch (error) {
       this.logger.error('Product crawler error:', error);
     }
