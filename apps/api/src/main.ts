@@ -6,11 +6,16 @@ async function bootstrap() {
   
   // Enable CORS
   app.enableCors({
-    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    origin: [
+      'http://localhost:3001', 
+      'http://localhost:3000',
+      process.env.FRONTEND_URL || '*'
+    ],
     credentials: true,
   });
   
-  await app.listen(3000);
-  console.log('Backend running on http://localhost:3000');
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`Backend running on port ${port}`);
 }
 bootstrap();
